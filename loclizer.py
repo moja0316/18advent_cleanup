@@ -4,6 +4,7 @@ from PIL import Image
 from PIL import ImageDraw
 import sys
 import datetime
+import analogy_detector
 
 def translate_ja(text):
 	# Client API 初期化
@@ -52,12 +53,12 @@ def localize_objects(path):
     client = vision.ImageAnnotatorClient()
     # 画像読み込み
     with open(path, 'rb') as image_file:
-        content = image_file.read().
+        content = image_file.read()
     # Object Loclizer へリクエストを送信し、結果を取得
     image = vision.types.Image(content=content)
     objects = client.object_localization(image=image).localized_object_annotations
     print('Number of objects found: {}'.format(len(objects)))
-
+    print(type(objects))
     return objects
 
 if __name__ == '__main__':
@@ -69,3 +70,6 @@ if __name__ == '__main__':
     detected_objects = localize_objects(path)
     # 結果表示
     view_results(path, detected_objects)
+    ana = analogy_detector.check_analogy_object_from_past(detected_objects)
+    print(ana)
+    print(len(ana))
