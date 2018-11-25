@@ -8,7 +8,7 @@ import time
 from PIL import Image as im
 
 # Raspberry Piで撮影
-def takephoto():
+def take_photo():
     # セットアップ、解像度を(1280, 720)に
     camera = picamera.PiCamera()
     camera.resolution = (1280, 720)
@@ -51,4 +51,4 @@ if __name__ == '__main__':
         print("Err : save_dir is not set.")
         sys.exit(1)
     save_dir = sys.argv[1]
-    execute(takephoto(), save_dir)
+    execute(take_photo(), save_dir)

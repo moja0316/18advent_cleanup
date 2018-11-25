@@ -1,9 +1,9 @@
 var googlehome = require('./google-home-notifier');
-var language = 'ja'; // if not set 'us' language will be used
+var language = 'ja';
 
-//googlehome.device('Google Home', language); // Change to your Google Home name
+googlehome.device('Google Home', language); // Change to your Google Home name
 // or if you know your Google Home IP
-googlehome.ip('192.168.1.1', language);
+// googlehome.ip('192.168.1.1', language);
 
 var msg = 'こんにちは。世界。';
 if(process.argv.length > 2){

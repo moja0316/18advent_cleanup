@@ -7,7 +7,7 @@ import datetime
 import analogy_detector
 
 def translate_ja(text):
-	# Client API 初期化
+    # Client API 初期化
     translate_client = translate.Client()
     # 翻訳
     translation = translate_client.translate(
@@ -20,19 +20,15 @@ def translate_ja(text):
 
     return result
 
-def view_results(path, objects):
-	# 画像表示
+def view_results(path, save_dir, objects):
+    # 画像表示
     im = Image.open(path)
     (im_w, im_h) = im.size
     draw = ImageDraw.Draw(im)
 
     for object_ in objects:
-    	# 返された結果を日本語に変換
-        name_ja = translate_ja(object_.name)
-        print('\n{} (confidence: {})'.format(name_ja, object_.score))
-
+        print('\n{} (confidence: {})'.format(object_.name, object_.score))
         poly_xy =[] 
-
         print('Normalized bounding polygon vertices: ')
         for vertex in object_.bounding_poly.normalized_vertices:
             print(' - ({}, {})'.format(vertex.x, vertex.y))
@@ -45,7 +41,9 @@ def view_results(path, objects):
         # ラベル付与
         draw.text((text_x, text_y), object_.name , fill=(255, 0, 0))
     # 画像保存
-    im.save("/home/takuma/prog/18advent/save/result.jpg")
+    now = datetime.datetime.now()
+    save_path = save_dir + "result_" + now.strftime("%y%m%d%H%M%S") + ".jpg"
+    im.save(save_path)
 
 
 def localize_objects(path):
@@ -63,13 +61,10 @@ def localize_objects(path):
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-    	exit(1)
+    	sys.exit(1)
     path = sys.argv[1]
     save_dir = sys.argv[2]
     # GCP Object Loclizerを呼び出して結果を取得
     detected_objects = localize_objects(path)
     # 結果表示
-    view_results(path, detected_objects)
-    ana = analogy_detector.check_analogy_object_from_past(detected_objects)
-    print(ana)
-    print(len(ana))
+    view_results(path, '/home/user/18advent/save/', detected_objects)

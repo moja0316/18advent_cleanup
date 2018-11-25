@@ -6,7 +6,7 @@ def get_diagonal_vertex(vertices):
     ypoints = [a["y"] for a in vertices]
     return ({"x": min(xpoints), "y": min(ypoints)}, {"x": max(xpoints), "y": max(ypoints)})
 
-# 不達の
+# 二つの矩形の重なり度を検出
 def check_analogy(objects_json1, objects_json2):
     # 左上と右下を検出
     ul_1, br_1 = get_diagonal_vertex(objects_json1["vertices"])
@@ -55,10 +55,10 @@ def save_data(detected_objects_json):
     db.insert_multiple(detected_objects_json)
 
 
-def get_saved_data(serach_key):
+def get_saved_data(search_key):
     db = TinyDB("detected.json")
     query = Query()
-    searched = db.search(query.name == serach_key)
+    searched = db.search(query.name == search_key)
     return searched
 
 
